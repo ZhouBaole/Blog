@@ -1,0 +1,110 @@
+﻿@using Blog.Models;
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                标题
+            </th>
+            <th>
+                点赞量
+            </th>
+            <th>
+                评论量
+            </th>
+            <th>
+                是否推荐
+            </th>
+            <th>
+                添加时间
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            var es = (List<Essay>)ViewData["ess"];
+            foreach (var item in es)
+            {
+                <tr id="tr_@item.esid">
+                    <td>
+                        @item.estitle
+                    </td>
+                    <td>
+                        @item.esliang
+                    </td>
+                    <td>
+                        @item.eslikes
+                    </td>
+                    <td>
+
+                        <input type="checkbox" id="check_@item.esid" class="chak" name="@item.esid" checked="@item.eisno" />
+
+                        @{ if (item.eisno)
+                            {<span class="isno_@item.esid">是</span>
+                            }
+                            else
+                            {<span class="isno_@item.esid">否</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @item.esdate
+                    </td>
+                    <td>
+
+                        <button type="button" class="btn btn-info btn-sm xang" name="@item.esid">详情</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info btn-sm esdelete" name="@item.esid">删除</button>
+                    </td>
+                </tr>
+
+                            }
+
+        }
+
+
+    </tbody>
+</table>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+     
+
+        //删除
+        $(".esdelete").click(function () {
+            var id = this.getAttribute("name");
+            $.post("eaydelete", { id: id }, function (date) {
+                if (date.type == 1) {
+                    $("#tr_" + id).hide();
+                } else {
+                    alert(date.date);
+                }
+            }, "json")
+
+        })
+        //修改推荐
+        $(".chak").click(function () {
+            var isno = this.checked;
+            var id = this.getAttribute("name");
+            $.post("eayup", { id: id, ko: isno }, function (date) {
+                if (date.type == 1) {
+                    if (date.isno == true) {
+
+                        $(".isno_"+id).text("是");
+                    } else {
+                        $(".isno_"+id).text("否");
+                    }
+
+                } else {
+                    alert(date.date);
+                }
+            }, "json")
+        })
+        //跳转到详情
+        $(".xang").click(function () {
+            var k = this.getAttribute("name");
+            location.href = "/Blogback/Essays?id=" + k;
+        })
+    })
+</script>

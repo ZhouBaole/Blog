@@ -1,0 +1,260 @@
+﻿
+@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+@using Blog.Models;
+<style type="text/css">
+    li:hover {
+        cursor: pointer;
+        background-color: antiquewhite;
+    }
+</style>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //跳转到相册
+        $("#photo").click(function () {
+            location.href = "/Bloging/share";
+        })
+        //跳转到文章
+        $("#texts").click(function () {
+            location.href = "/Bloging/diary";
+        })
+        $(".tui").click(function () {
+            var id = this.getAttribute("name");
+            location.href = "/Bloging/diary?id="+id;
+        })
+        $(".pai").click(function () {
+            var id = this.getAttribute("name");
+            location.href = "/Bloging/diary?id=" + id;
+        })
+        //跳转相册内容
+        $(".photolook").click(function () {
+            var id = this.getAttribute("name");
+            location.href = "/Bloging/shares?id=" + id;
+        })
+      
+        //相册点赞
+        $(".phli").click(function () {
+            var id = this.getAttribute("name");
+            $.post("photoimgs", { id: id }, function (data) {
+                if (data.type == 1) {
+
+                    $(".puliang_"+id).text(data.liang);
+
+                } else { alert(data.data); }
+
+
+            }, "json")
+        })
+    })
+</script>
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <!--轮播图-->
+        <div class="carousel slide" id="carousel-496218" style="margin-bottom:20px;">
+            <ol class="carousel-indicators">
+                <li class="active" data-slide-to="0" data-target="#carousel-496218">
+                </li>
+                <li data-slide-to="1" data-target="#carousel-496218">
+                </li>
+                <li data-slide-to="2" data-target="#carousel-496218">
+                </li>
+                <li data-slide-to="3" data-target="#carousel-496218">
+                </li>
+                <li data-slide-to="4" data-target="#carousel-496218">
+                </li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img alt="" src="~/images/lunbotu/1.jpg" style="width:100%; height:400px;" />
+                </div>
+                <div class="item">
+                    <img alt="" src="~/images/lunbotu/2.jpg" style="width:100%; height:400px;" />
+                </div>
+                <div class="item">
+                    <img alt="" src="~/images/lunbotu/3.jpg" style="width:100%; height:400px;" />
+                </div>
+                <div class="item">
+                    <img alt="" src="~/images/lunbotu/4.jpg" style="width:100%; height:400px;" />
+                </div>
+                <div class="item">
+                    <img alt="" src="~/images/lunbotu/5.jpg" style="width:100%; height:400px;" />
+                </div>
+            </div>
+            <a class="left carousel-control" href="#carousel-496218" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-496218" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+        <!--内容-->
+        <div class="row clearfix" style="margin-top:10px;">
+            <!--左边内容-->
+            <div class="col-md-4 column visible-lg">
+                @{
+                    //相册
+                    var imgs = (List<Phabum>)ViewData["photo"];
+                    //文章
+                    var texts = (List<Essay>)ViewData["text"];
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                分类
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <li class="list-group-item" id="photo">相册（@imgs.Count()）</li>
+                                <li class="list-group-item" id="texts">文章（@texts.Count()）</li>
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                站长推荐
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @{
+                                    foreach (var item in texts.Take(4))
+                                    {
+
+                                        <li class="list-group-item tui"  name="@item.esid">@item.estitle</li>
+                                    }
+                                }
+
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                阅读排行
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @{
+                                    foreach (var item in texts.OrderByDescending(a => a.esliang).Take(5))
+                                    {
+
+                                        <li class="list-group-item pai" name="@item.esid">@item.estitle</li>
+                                    }
+                                }
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+            <div class="col-md-8 column">
+                <!--右边内容-->
+                <!--相册-->
+                <h2 style="color:aliceblue;">相册</h2>
+                <hr/>
+                <div class="row">
+                    @{
+                        List<photoimg> img = (List<photoimg>)ViewData["photoimgd"];
+                        if (img.Count() == 0)
+                        {
+
+                            <div class="col-md-4">
+                                <div class="thumbnail">
+
+                                    <img alt="300x200" src="~/images/users/1.jpg" />
+                                    <div class="caption" style="color:black;">
+                                        <h3>
+                                            空
+                                        </h3>
+                                        <p>
+                                            还没有相册哦，请联系后台人员进行添加！
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var item in img.Take(3))
+                            {
+                                <div class="col-md-4">
+                                    <div class="thumbnail" >
+                                        @{
+                                            if (item.pimg.Count > 0)
+                                            {
+                                                <img alt="300x200" src="~/images/@item.phabums.phtitle/@item.pimg[0].photos" style="width:100%;height:200px;" />
+                                            }
+                                            else
+                                            {
+                                                <img alt="300x200" src="~/images/users/3.jpg" style="width:100%;height:200px;" />
+                                            }
+                                        }
+                                        
+                                        <div class="caption" style="color:black;">
+                                            <h3>
+                                                @item.phabums.phtitle
+                                            </h3>
+                                            <p>
+                                                @item.phabums.phback
+                                            </p>
+                                            <p>
+                                                <a class="btn btn-primary photolook" name="@item.phabums.phid" href="#">查看</a> 
+                                                <a class="btn phli" href="#" name="@item.phabums.phid">点赞</a>
+                                                (<span class="puliang_@item.phabums.phid">@item.phabums.phliang</span>)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                                }
+
+                                            }
+
+                    }
+
+
+                </div>
+                <!--文章-->
+                <h2 style="color:aliceblue;">文章</h2>
+                <hr />
+                @{
+                    var tex = (List<Essay>)ViewData["text"];
+                    foreach (var item in tex.Take(4))
+                    {
+                        <div class="col-md-12 column" style="color:aliceblue;">
+                            <h2>
+                                @item.estitle
+                            </h2>
+                            <p style="display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;">
+                                @item.esconter
+                            </p>
+                            <p>
+                                <a class="btn tui" href="#" name="@item.esid"> @item.estitle »</a>
+                            </p>
+                        </div>
+                    }
+
+                }
+               
+
+
+            </div>
+        </div>
+    </div>
+</div>

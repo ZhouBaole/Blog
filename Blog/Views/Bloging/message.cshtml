@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "留言";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+@using Blog.Models;
+<div class="row clearfix">
+    <div class="col-md-12 column">
+       <!--评论内容-->
+        <ul class="list-group">
+            @{
+                List<messeus> me = (List<messeus>)ViewData["mes"];
+                if (me.Count() > 0)
+                {
+                    foreach (var item in me)
+                    {
+                        <li class="list-group-item">
+                            <div class="media">
+                                <div class="media-left media-middle">
+                                    <img src="~/images/users/@item.users.uspic" class="img-circle" style="width:60px;height:60px;">
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">
+                                        @item.users.usname
+                                    </h4>
+                                    <p>@item.messages.meconter</p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                   <h1 style="color:azure;text-align:center;">
+                       还没有留言哦！
+                   </h1>
+                }
+
+            }
+           
+          
+        </ul>
+        <!--提交框-->
+        <form role="form">           
+            <div class="form-group">
+                <label for="exampleInputPassword1">留言内容：</label>
+                <textarea class="form-control" id="distext"></textarea>
+            </div>
+            <div class="checkbox">
+            </div> <button type="submit" id="disint" class="btn btn-default">提交</button>
+        </form>
+    </div>
+</div>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //发送评论
+        $("#disint").click(function () {
+            var id = this.getAttribute("name");
+            var text = $("#distext").val();
+            if (text != "" && text != null) {
+                $.post("messageadd", { count: text }, function (data) {
+                    if (data.type == 1) {
+
+                        location.reload();  
+
+                    } else { alert(data.data); }
+
+
+                }, "json")
+            } else {
+                alert("评论内容不能为空")
+            }
+
+        })
+    })
+</script>

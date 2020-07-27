@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "文章";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+@using Blog.Models;
+<style type="text/css">
+    li:hover {
+        background-color:aquamarine;
+    }
+</style>
+<div class="row clearfix" style="margin-top:10px;">
+    <!--左边内容-->
+    <div class="col-md-3 column visible-lg">
+     
+        <div class="panel panel-default">
+            @{
+                List<Essay> ess = (List<Essay>)ViewData["text"];
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        文章（@ess.Count()）
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+
+                        @{ foreach (var item in ess)
+                            {
+                                <li class="list-group-item es" name="@item.esid" style="cursor:pointer;">@item.estitle</li>
+                            }
+                        }
+                        
+                        
+                    </ul>
+                </div>
+            }
+          
+
+        </div>
+    </div>
+
+    <div class="col-md-9 column">
+        <!--右边内容-->
+        @{
+            //文章内容
+            Essay es = (Essay)ViewData["textx"];
+            <div class="col-md-12 column" style="color:aliceblue;">
+
+                <h2>
+                    @es.estitle
+                </h2>
+                <h4>@es.esdate</h4>
+                <pre style="white-space: pre-wrap!important;word-wrap: break-word!important;*white-space:normal!important; background-color:rgba(0, 0, 0, 0.48);color:azure;font-size:15px;">
+                    @es.esconter
+                   
+                </pre>
+                <h3>
+                    <button type="button" name="@es.esid" id="zanwen" class="btn btn-primary"><span class="glyphicon   glyphicon-thumbs-up">
+                        </span>为他点赞
+                    </button>
+                    （<spa id="liang">@es.esliang</spa>）
+                </h3>
+            </div>
+            //文章评论内容
+       
+        <h2 style="color:azure;">评论</h2>
+        <textarea class="form-control" id="distext"></textarea>
+        <br/>
+        <button type="button" id="disint" name="@es.esid" class="btn btn-info">发送</button>
+        }
+        <hr />
+        <div class="col-md-12 column">
+            @{
+                List<essayus> lisus = (List<essayus>)ViewData["pinglun"];
+                if (lisus.Count() != 0)
+                {
+                    foreach (var item in lisus)
+                    {
+                        <div class="media well" style="background-color:rgba(0, 0, 0, 0.48);color:azure;">
+                            <a href="#" class="pull-left"><img src="~/images/users/@item.us.uspic" class="media-object img-circle" style="width:60px;height:60px;" alt='' /></a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    @item.us.usname
+                                    <button type="button" class="btn btn-primary btn-lg pingzan" name="@item.dis.diid" style="text-shadow: black 5px 3px 3px;">
+                                        <span class="glyphicon   glyphicon-thumbs-up"></span>
+                                    </button>
+                                    (<span class="dili_@item.dis.diid">@item.dis.disliang</span>)
+                                </h4>
+                                <div>@item.dis.disdate</div>
+                               @item.dis.dicount
+                            </div>
+                        </div>
+                    }
+
+                }
+                else
+                {
+                    <h1>还没有进行评论哦</h1>
+                }
+
+
+            }
+           
+        </div>
+    </div>
+</div>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //文章点赞
+        $("#zanwen").click(function () {
+            var id = this.getAttribute("name");
+        
+            $.post("textzanadd", { idd: id }, function (data) {
+                if (data.type == 1) {
+                    
+                    $("#liang").text(data.liang);
+
+                } else { alert(data.data); }
+                    
+               
+            }, "json")
+        })
+        //发送评论
+        $("#disint").click(function () {
+            var id = this.getAttribute("name");
+            var text = $("#distext").val();
+            if (text != "" && text != null) {
+                $.post("Disadd", { idd: id, count: text }, function (data) {
+                    if (data.type == 1) {
+
+                        location.reload();
+
+                    } else { alert(data.data); }
+
+
+                }, "json")
+            } else {
+                alert("评论内容不能为空")
+            }
+           
+        })
+        //跳转文章
+        $(".es").click(function () {
+            var id = this.getAttribute("name");
+            location.href = "/Bloging/diary?id=" + id;
+        })
+        //评论点赞
+        $(".pingzan").click(function () {
+            var id = this.getAttribute("name");
+
+            $.post("tlikeadd", { idd: id }, function (data) {
+                if (data.type == 1) {
+
+                    $(".dili_"+id).text(data.liang);
+
+                } else { alert(data.data); }
+
+
+            }, "json")
+        })
+    })
+</script>

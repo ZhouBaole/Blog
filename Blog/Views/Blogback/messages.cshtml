@@ -1,0 +1,47 @@
+﻿@using Blog.Models;
+@{
+            var mes = (List<messeus>)ViewData["mess"];
+            foreach (var item in mes)
+            {
+        <div class="media" id="pc_@item.messages.meid">
+            <div class="media-left">
+                <img src="~/images/users/@item.users.uspic" class="media-object img-circle" style="width:60px;height:60px;">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    @item.users.usname
+                    <div style="display:inline;" class="right">
+                        <span>@item.messages.mesdate</span>
+                        <span class="glyphicon glyphicon-thumbs-up"></span>@item.messages.meliang
+                        <button type="button" class="btn btn-danger navbar-right deletepc" style="margin-right:10px;" name="@item.messages.meid">删除</button>
+                    </div>
+                </h4>
+
+                <p>@item.messages.meconter</p>
+            </div>
+        </div>
+
+    }
+}
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        //删除
+        $(".deletepc").click(function () {
+            var k = this.getAttribute("name");
+            var r = confirm("将删除本留言！")
+            if (r == true) {
+                $.post("mesdelete", { idd: k }, function (date) {
+                    if (date.type == 1) {
+                        $("#pc_" + k).hide();
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json");
+            }
+
+        })      
+        
+    })
+</script>

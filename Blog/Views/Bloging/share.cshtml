@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "相册";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+@using Blog.Models;
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".look").click(function () {
+            var id = this.getAttribute("name");
+            location.href = "/Bloging/shares?id=" + id;
+        })
+        //相册点赞
+        $(".phli").click(function () {
+            var id = this.getAttribute("name");
+            $.post("photoimgs", { id: id }, function (data) {
+                if (data.type == 1) {
+
+                    $(".puliang_"+id).text(data.liang);
+
+                } else { alert(data.data); }
+
+
+            }, "json")
+        })
+    })
+</script>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="row">
+    @{
+        List<photoimg> pum = (List<photoimg>)ViewData["pumimg"];
+        foreach (var item in pum)
+        {
+            <div class="col-md-3">
+            <div class="thumbnail">
+                @{
+                    if (item.pimg.Count() > 0)
+                    {
+                        <img src="~/images/@item.phabums.phtitle/@item.pimg[0].photos"  style="width:100%;height:200px;" />
+                    }
+                    else
+                    {
+                        <img  src="~/images/users/2.jpg"  style="width:100%;height:200px;" />
+                    }
+                }  
+                
+                <div class="caption">
+                    <h3>
+                       @item.phabums.phtitle
+                    </h3>
+                    <p  style="display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
+                      @item.phabums.phback  
+                    </p>
+                    <p>
+                        <a class="btn btn-primary look" href="#" name="@item.phabums.phid">查看</a>
+                         <a class="btn phli" href="#"  name="@item.phabums.phid">点赞</a>
+                        (<span class="puliang_@item.phabums.phid">@item.phabums.phliang</span>)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        }
+
+    }
+              
+              
+            </div>
+        </div>
+    </div>

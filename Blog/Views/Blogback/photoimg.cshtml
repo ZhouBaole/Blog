@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "photoimg";
+    Layout = "~/Views/back.cshtml";
+}
+@using Blog.Models;
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <!--相册信息-->
+        @{
+            var Phabum = (Phabum)ViewData["ph"];
+            <h2>
+                <!--相册标题-->
+                @Phabum.phtitle
+            </h2>
+            <p>
+                <!--相册备注-->
+                @Phabum.phback
+            </p>
+        }
+
+        <!--相册的图片操作-->
+        <span>图片</span>
+        <hr />
+        <div class="row">
+            <!--添加图片操作-->
+            <div class="col-md-4">
+                <div class="thumbnail" style="text-align:center;height:200px;line-height:200px;">
+                    <span class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal" style="font-size:50px; cursor:pointer;"></span>
+                    <!--添加图片的模态框-->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">添加图片</h4>
+                                </div>
+                                @using (Html.BeginForm("imgadd", "Blogback", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <input id="idd" name="idd" type="text" style="display:none;" value="@Phabum.phid">
+                                    <div class="modal-body">
+
+                                        <div class="input-group">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="图片名称">
+                                        </div>
+
+                                        <img id="potimg" width="150" height="170" />
+                                        <div style="width:100%;height:30px;"><input type="file" id="file" name="file" onchange="myfile()" style="margin:0px auto;" /></div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="submit" class="btn btn-primary" id="imgadd" name="">上传</button>
+                                    </div>
+                                }
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                </div>
+
+
+            </div>
+            <!--图片展示与删除-->
+            @{
+                var imgs = (List<Photograph>)ViewData["img"];
+                if (imgs.Count() > 0)
+                {
+                    foreach (var item in imgs)
+                    {
+                        <div class="col-md-4" id="img_@item.otoid">
+                            <div class="thumbnail">
+                                <img alt="@item.otoname" src="~/images/@Phabum.phtitle/@item.photos" style="width:100%;height:100%;" />
+                                <div>@item.otoname</div>
+                                <span>@item.otodate</span>
+                                <!--点击删除图片-->
+                                <button type="button" class="btn btn-danger imgremv" name="@item.otoid" style="width:100%;">删除</button>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+            }
+
+
+
+        </div>
+        <hr />
+        <div>
+            @Phabum.phliang<span class="glyphicon glyphicon-thumbs-up"></span>
+            @Phabum.phlikes<span class="glyphicon glyphicon-envelope"></span>
+        </div>
+        <!--相册的评论-->
+        评论
+        <hr />
+        @{
+            var imscc = (List<imgsc>)ViewData["imgsc"];
+            foreach (var item in imscc)
+            {
+                <div class="media" id="pc_@item.ph.pcid">
+                    <div class="media-left">
+                        <img src="~/images/users/@item.us.uspic" class="media-object img-circle" style="width:60px;height:60px;">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            @item.us.usname
+                        <div style="display:inline;" class="right">
+                            <span>@item.ph.pcdate</span>
+                            <span class="glyphicon glyphicon-thumbs-up"></span>@item.ph.pcliang
+                            <button type="button"  class="btn btn-danger navbar-right deletepc" style="margin-right:10px;" name="@item.ph.pcid">删除</button>
+                        </div>
+                    </h4>
+
+                    <p>@item.ph.pccount</p>
+                </div>
+            </div>
+            }
+        }
+
+    </div>
+</div>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".imgremv").click(function () {
+            var id = this.getAttribute("name");
+            var r = confirm("确定要删除吗！")
+            if (r == true) {
+                $.post("imgeremove", { idd: id }, function (date) {
+                    if (date.type == 1) {
+                        $("#img_" + id).hide();
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json");
+            }
+        });
+        $(".deletepc").click(function () {
+            var id = this.getAttribute("name");
+            var r = confirm("确定要删除吗！")
+            if (r == true) {
+                $.post("pcdelete", { idd: id }, function (date) {
+                    if (date.type == 1) {
+                        $("#pc_" + id).hide();
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json");
+            }
+
+        })
+        
+    })
+    function myfile() {
+
+        var sfile = $("#file")[0].files[0];
+        var reg = /^image\/\w+&/;
+        var flag = reg.test(sfile.type);
+
+        if (!flag) {
+            var file = new FileReader();
+            file.readAsDataURL(sfile);
+            file.onload = function (e) {
+                $("#potimg").attr("src", this.result);
+            }
+        } else {
+            $.messager.alert("提示", "请选择图片");
+        }
+
+
+    }
+</script>

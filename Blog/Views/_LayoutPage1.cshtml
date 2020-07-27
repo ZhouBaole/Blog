@@ -1,0 +1,674 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>@ViewBag.Title</title>
+
+    <link href="~/scripts/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/scripts/easyui/jquery.min.js"></script>
+    <script src="~/scripts/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+           
+            background-image: url('../images/高清背景图片.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        .none {
+            display: none;
+        }
+
+        .back {
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <nav class="navbar navbar-default" style="background-color:rgba(255, 243, 243, 0.37);color:black;" role="navigation">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                            data-target="#example-navbar-collapse">
+                                        <span class="sr-only">切换导航</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="navbar-brand" href="/Bloging/Index" style="color:black;">BLOG</a>
+                                </div>
+                                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                                    <ul class="nav navbar-nav navbar-left" >
+                                        <li><a href="/Bloging/Index" style="color:black;">首页</a></li>
+                                        <li><a href="/Bloging/share" style="color:black;">相册</a></li>
+                                        <li><a href="/Bloging/diary" style="color:black;">文章</a></li>
+                                        <li><a href="/Bloging/message" style="color:black;">留言</a></li>
+                                        <li><a href="/Bloging/about" style="color:black;">关于</a></li>
+                                    </ul>
+                                    @{
+                                      
+                                        if (Session["name"] == null)
+                                        {
+                                            <ul class="nav navbar-nav navbar-collapse navbar-right">
+                                                <li data-toggle="modal" data-target="#myModal"><a href="#" style="color:black;"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+
+                                                <li data-toggle="modal" data-target="#logModal"><a href="#" style="color:black;"> <span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                                            </ul>
+                                    <!-- 注册模态框（Modal） -->
+                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h4 class="modal-title" id="myModalLabel">注册</h4>
+                                                        </div>
+
+
+                                                        <div class="modal-body">
+                                                            <div class="row clearfix">
+                                                                <form id="formd" enctype="multipart/form-data">
+                                                                    <div class="col-md-6 column">
+                                                                        <!-- 姓名 -->
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="usname" id="usname" placeholder="姓名">
+                                                                            <span class="glyphicon glyphicon-ok none usnameok"></span>
+                                                                            <p class="none usnameno" style="color:red">
+                                                                                <span class="glyphicon glyphicon-remove">
+                                                                                </span>名字长度不能大于五，也不能为空哦
+                                                                            </p>
+                                                                        </div><br />
+                                                                        <!-- 手机号 -->
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control left" name="usphone" id="usphone" placeholder="手机号" />
+                                                                            <span class="glyphicon glyphicon-ok none usphoneok"></span>
+                                                                            <p class="none usphoneno" style="color:red">
+                                                                                <span class="glyphicon glyphicon-remove">
+                                                                                </span>请输入正确的手机号，也不能为空哦
+                                                                            </p>
+                                                                        </div><br />
+                                                                        <!-- 密码 -->
+                                                                        <div class="input-group">
+                                                                            <input type="password" class="form-control" name="pwd" id="pwd" placeholder="密码" />
+                                                                            <span class="glyphicon glyphicon-ok none pwdok"></span>
+                                                                            <p class="none pwdno" style="color:red">
+                                                                                <span class="glyphicon glyphicon-remove">
+                                                                                </span>密码长度需要在6到10位数字，也不能为空哦
+                                                                            </p>
+                                                                        </div><br />
+                                                                        <!-- 确认密码 -->
+                                                                        <div class="input-group">
+                                                                            <input type="password" class="form-control" name="pwds" id="pwds" placeholder="确认密码" />
+                                                                            <span class="glyphicon glyphicon-ok none pwdsok"></span>
+                                                                            <p class="none pwdsno" style="color:red">
+                                                                                <span class="glyphicon glyphicon-remove">
+                                                                                </span>与密码不一致
+                                                                            </p>
+                                                                        </div><br />
+                                                                        <!--发送验证码-->
+                                                                        <div class="input-group">
+                                                                            <input type="email" class="form-control" name="emial" placeholder="输入邮箱" id="emial">
+
+                                                                            <span class="input-group-btn">
+                                                                                <button class="btn btn-default" id="emials" type="button">发送验证码</button>
+                                                                                <button class="btn btn-default none" id="emialss" type="button">已发送</button>
+                                                                            </span>
+
+                                                                        </div>
+                                                                        <br />
+                                                                        <!-- 输入验证码 -->
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control" name="emialyan" id="emialyan" placeholder="输入验证码">
+                                                                            <span class="glyphicon glyphicon-ok none emialyanok"></span>
+                                                                            <p class="none emialyanno" style="color:red">
+                                                                                <span class="glyphicon glyphicon-remove">
+                                                                                </span>验证码5位数，且不能为空
+                                                                            </p>
+
+                                                                        </div><br />
+                                                                    </div>
+                                                                    <div class="col-md-6 column">
+                                                                        <input type="file" id="file" name="file" onchange="myfile()" style="width:50%;margin:10px auto;" />
+                                                                        <img id="ussimg" class="img-circle" style="width:100px;height:100px;margin:0px auto;">
+                                                                    </div>
+
+                                                                </form>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                            <button type="button" id="zhucetijiao" class="btn btn-primary">提交</button>
+                                                        </div>
+
+
+
+
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
+                                    <!-- 登录模态框（Modal） -->
+                                            <div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h4 class="modal-title" id="myModalLabel">登录</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row clearfix">
+                                                                <div class="col-md-12 column">
+                                                                    <div class="tabbable" id="tabs-749224">
+                                                                        <ul class="nav nav-tabs">
+                                                                            <li>
+                                                                                <a href="#panel-441415" data-toggle="tab">密码登录</a>
+                                                                            </li>
+                                                                            <li class="active">
+                                                                                <a href="#panel-519400" data-toggle="tab">邮箱登录</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div class="tab-content">
+                                                                            <div class="tab-pane" id="panel-441415">
+                                                                                <!--密码登录-->
+                                                                                <form id="logenpwd" enctype="multipart/form-data">
+                                                                                    <div class="form-group">
+                                                                                        <label for="inputEmail3" class="col-sm-2 control-label">手机号</label>
+
+                                                                                        <div class="col-sm-10">
+                                                                                            <div class="col-sm-10">
+
+                                                                                                <input type="text" class="form-control logphone" name="logphone" id="inputEmail3" />
+                                                                                                <span class="glyphicon glyphicon-ok none logphoneok"></span>
+                                                                                                <p class="none logphoneno" style="color:red">
+                                                                                                    <span class="glyphicon glyphicon-remove">
+                                                                                                    </span>请输入正确的手机号，也不能为空哦
+                                                                                                </p>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                        <br /><br />
+                                                                                    <div class="form-group">
+                                                                                        <label for="inputPassword3"  class="col-sm-2 control-label">密码</label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="password" class="form-control logpwd" name="logpwd" id="inputPassword3" />
+                                                                                            <span class="glyphicon glyphicon-ok none logpwdok"></span>
+                                                                                            <p class="none logpwdno" style="color:red">
+                                                                                                <span class="glyphicon glyphicon-remove">
+                                                                                                </span>密码长度需要在6到10位数字，也不能为空哦
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div><br />
+                                                                                    <div class="form-group">
+                                                                                        <div class="col-sm-offset-2 col-sm-10">
+                                                                                            <div class="checkbox">
+                                                                                                <label>如密码忘记请用邮箱登录</label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                
+                                                                                        </form>
+                                                                                    <br />
+                                                                                <div class="form-group">
+                                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                                        <button type="submit" class="btn btn-default" id="logen">登录</button>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="tab-pane active" id="panel-519400">
+                                                                                <!--邮箱登录--><br />
+                                                                                <form id="logenemal" enctype="multipart/form-data">
+                                                                                    <div class="input-group">
+                                                                                        <input type="text" class="form-control" name="logemal" id="logemal" placeholder="邮箱">
+                                                                                        <span class="input-group-btn">
+                                                                                            <button class="btn btn-default" id="logemalsum" type="button">发送验证码</button>
+                                                                                            <button class="btn btn-default none" id="logemals" type="button">已发送</button>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <br />
+                                                                                    <div class="input-group ">
+                                                                                        <input type="text" class="form-control" id="logcod" name="logcod" placeholder="验证码">
+                                                                                        <span class="glyphicon glyphicon-ok none logcodok"></span>
+                                                                                        <p class="none logcodno" style="color:red">
+                                                                                            <span class="glyphicon glyphicon-remove">
+                                                                                            </span>验证码5位数，且不能为空
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </form>
+                                                                                    <br /><br />
+                                                                                    <div class="form-group">
+                                                                                        <div class="col-sm-offset-2 col-sm-10">
+                                                                                            <button type="submit" id="logeml" class="btn btn-default">登录</button>
+                                                                                        </div>
+                                                                                    </div>
+
+</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <ul class="nav navbar-nav navbar-right">
+                                                <li>
+                                                    <img src="~/images/users/@Session["img"]" style="width:50px;height:50px;" class="img-circle">
+                                                </li>
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Session["name"]<b class="caret"></b></a>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="/Bloging/users">设置</a>
+                                                        </li>
+                                                        <li>
+                                                            <a id="removeid" href="#">退出</a>
+                                                        </li>
+                                                       
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        }
+
+                                    }
+                                   
+                                </div>
+
+
+
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="row clearfix" style="margin-top:10px;">
+                    <div class="col-md-12 column">
+                        @RenderBody()
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            //退出登录
+            $("#removeid").click(function(){
+                $.post("remove",{},function(data){
+                    if (data.type==1) {
+                        location.reload();
+                    }else{
+                        alert(data.data);
+                    }
+                },"json")
+            })
+
+            //验证邮箱
+            var ems=0;
+
+            $("#emials").click(function () {
+                var em = $("#emial").val();
+                if (em != "" && em != null) {
+                    var reg =  /^\w+([-+.]\w+)*@{@Html.Raw("@");}\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                    isok = reg.test(em);
+                    if (!isok) {
+                        alert("邮箱格式不正确，请重新输入！");
+                    } else {
+                        $.post("SendEmail1", { mailTo: em, mailSubject: "验证码", mailContent: "验证码是" }, function (date) {
+                            if (date.type == 1) {
+                                alert(date.date);
+                                $("#emials").addClass("none")
+                                $("#emialss").removeClass("none")
+                                $("#emialss").addClass("back")
+                                $("#emial").attr("readonly", "readonly");
+                                ems=2;
+                            } else {
+                                alert(date.date);
+                            }
+
+
+                        }, "json")
+
+                    }
+
+                } else {
+                    alert("请输入邮箱")
+                }
+            });
+
+
+            //名字判断
+            $("#usname").blur(function(){
+                var text= $("#usname").val();
+
+
+                if (text.length>5||text==""||text==null) {
+                    $(".usnameno").removeClass("none");
+                    $(".usnameok").addClass("none");
+                }else{
+                    $(".usnameno").addClass("none");
+                    $(".usnameok").removeClass("none");
+                }
+
+            })
+            //验证码判断
+            $("#emialyan").blur(function(){
+                var text= $("#emialyan").val();
+
+
+                if (text.length!=5||text==""||text==null) {
+                    $(".emialyanno").removeClass("none");
+                    $(".emialyanok").addClass("none");
+                }else{
+                    $(".emialyanno").addClass("none");
+                    $(".emialyanok").removeClass("none");
+                }
+
+            })
+             //手机号码判断
+            $("#usphone").blur(function(){
+                var text= $("#usphone").val();
+                var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+
+                if (!myreg.test(text)||text==""||text==null) {
+                    $(".usphoneno").removeClass("none");
+                    $(".usphoneok").addClass("none");
+                }else{
+                    $(".usphoneno").addClass("none");
+                    $(".usphoneok").removeClass("none");
+                }
+
+            })
+            //密码判断
+            $("#pwd").blur(function(){
+                var text= $("#pwd").val();
+
+
+                if (text.length>10||text.length<6 ||text==""||text==null) {
+                    $(".pwdno").removeClass("none");
+                    $(".pwdok").addClass("none");
+                }else{
+                    $(".pwdno").addClass("none");
+                    $(".pwdok").removeClass("none");
+                }
+
+            })
+            //登录密码判断
+            $(".logpwd").blur(function(){
+                var text= $(".logpwd").val();
+
+
+                if (text.length>10||text.length<6 ||text==""||text==null) {
+                    $(".logpwdno").removeClass("none");
+                    $(".logpwdok").addClass("none");
+                }else{
+                    $(".logpwdno").addClass("none");
+                    $(".logpwdok").removeClass("none");
+                }
+
+            })
+            //密码确认判断
+            $("#pwds").blur(function(){
+                var text= $("#pwd").val();
+                var texts= $("#pwds").val();
+                  if (text!=texts||text=="") {
+                    $(".pwdsno").removeClass("none");
+                    $(".pwdsok").addClass("none");
+                }else{
+                    $(".pwdsno").addClass("none");
+                    $(".pwdsok").removeClass("none");
+                }
+
+            })
+            //注册
+            $("#zhucetijiao").click(function(){
+                //判断名字
+                if ($("#usname").val().length>5||$("#usname").val()==""||$("#usname").val()==null) {
+                    $(".usnameno").removeClass("none");
+                    $(".usnameok").addClass("none");
+                    return;
+                }
+                //手机号
+                var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+
+                if (!myreg.test($("#usphone").val())||$("#usphone").val()==""||$("#usphone").val()==null) {
+                    $(".usphoneno").removeClass("none");
+                    $(".usphoneok").addClass("none");
+                    return;
+                }
+                //密码
+
+                if ($("#pwd").val().length>10||$("#pwd").val().length<6 ||$("#pwd").val()==""||$("#pwd").val()==null) {
+                    $(".pwdno").removeClass("none");
+                    $(".pwdok").addClass("none");
+                    return;
+                }
+                //确认密码
+
+                if ($("#pwd").val()!=$("#pwds").val()||$("#pwds").val()=="") {
+                    $(".pwdsno").removeClass("none");
+                    $(".pwdsok").addClass("none");
+                    return;
+                }
+                //邮箱
+                if (ems==0) {
+                    alert("请验证邮箱");
+                    return;
+                }
+                //验证码判断
+                   if ($("#emialyan").val().length!=5||$("#emialyan").val()==""||$("#emialyan").val()==null) {
+                    $(".emialyanno").removeClass("none");
+                    $(".emialyanok").addClass("none");
+                    return;
+                }
+
+                var foorm=new FormData($("#formd")[0]);
+
+                $.ajax({
+                    url:"/Bloging/signin",
+                    dataType:"json",
+                    data:foorm,
+                    type:"POST",
+                    async:false,
+                    processData:false,
+                    contentType:false,
+                    success:function(data){
+                        if (data.type==1) {
+                            location.reload();
+                        }else{
+                            alert(data.data);
+                        }
+                    },
+                    error:function(err){
+                        alert("注册失败")
+                    }
+
+                })
+
+
+            })
+
+            //密码登录
+            $("#logen").click(function(){
+                //手机号
+                var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+
+                if (!myreg.test($(".logphone").val())||$(".logphone").val()==""||$(".logphone").val()==null) {
+                    $(".logphoneno").removeClass("none");
+                    $(".logphoneok").addClass("none");
+                    return;
+
+                }
+                //密码
+
+                if ($(".logpwd").val().length>10||$(".logpwd").val().length<6 ||$(".logpwd").val()==""||$(".logpwd").val()==null) {
+                    $(".logpwdno").removeClass("none");
+                    $(".logpwdok").addClass("none");
+                    return;
+                }
+                var foorm=new FormData($("#logenpwd")[0]);
+
+                $.ajax({
+                    url:"/Bloging/Logen",
+                    dataType:"json",
+                    data:foorm,
+                    type:"POST",
+                    async:false,
+                    processData:false,
+                    contentType:false,
+                    success:function(data){
+                        if (data.type==1) {
+                            location.reload();
+                        }else{
+                            alert(data.data);
+                        }
+                    },
+                    error:function(err){
+                        alert("注册失败")
+                    }
+
+                })
+            })
+            //邮箱登录
+            $("#logeml").click(function(){
+                //判断是否验证邮箱
+                if (ems!=1) {
+                    alert("请先输入邮箱进行验证");
+                    return;
+                }
+
+                //验证码
+                if ($("#logcod").val().length!=5||$("#logcod").val()==""||$("#logcod").val()==null) {
+                    $(".logcodno").removeClass("none");
+                    $(".logcodok").addClass("none");
+                    return;
+                }
+
+
+                var foorm=new FormData($("#logenemal")[0]);
+
+                $.ajax({
+                    url:"/Bloging/Logeemal",
+                    dataType:"json",
+                    data:foorm,
+                    type:"POST",
+                    async:false,
+                    processData:false,
+                    contentType:false,
+                    success:function(data){
+                        if (data.type==1) {
+                            location.reload();
+                        }else{
+                            alert(data.data);
+                        }
+                    },
+                    error:function(err){
+                        alert("注册失败")
+                    }
+
+                })
+            })
+            //登录验证码
+            $("#logcod").blur(function(){
+                var text= $("#logcod").val();
+
+
+                if (text.length!=5||text==""||text==null) {
+                    $(".logcodno").removeClass("none");
+                    $(".logcodok").addClass("none");
+                }else{
+                    $(".logcodno").addClass("none");
+                    $(".logcodok").removeClass("none");
+                }
+
+            })
+            //登录手机号验证
+            $(".logphone").blur(function(){
+                var text= $(".logphone").val();
+                var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+
+                if (!myreg.test(text)||text==""||text==null) {
+                    $(".logphoneno").removeClass("none");
+                    $(".logphoneok").addClass("none");
+                }else{
+                    $(".logphoneno").addClass("none");
+                    $(".logphoneok").removeClass("none");
+                }
+
+            })
+            //登录邮箱验证
+            $("#logemalsum").click(function () {
+                var em = $("#logemal").val();
+                if (em != "" && em != null) {
+                    var reg =  /^\w+([-+.]\w+)*@{@Html.Raw("@");}\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                    isok = reg.test(em);
+                    if (!isok) {
+                        alert("邮箱格式不正确，请重新输入！");
+                    }
+                    else {
+                        $.post("SendEmail1", { mailTo: em, mailSubject: "验证码", mailContent: "验证码是" }, function (date) {
+                            if (date.type == 1) {
+                                alert(date.date);
+                                $("#logemalsum").addClass("none")
+                                $("#logemals").removeClass("none")
+                                $("#logemals").addClass("back")
+                                $("#logemal").attr("readonly", "readonly");
+                                ems=1;
+                            } else {
+                                alert(date.date);
+                            }
+
+
+                        }, "json")
+
+                    }
+
+                }
+                else {
+                    alert("请输入邮箱")
+                }
+            });
+        })
+        //选择图片
+        function myfile() {
+
+            var sfile = $("#file")[0].files[0];
+            var reg = /^image\/\w+&/;
+            var flag = reg.test(sfile.type);
+
+            if (!flag) {
+                var file = new FileReader();
+                file.readAsDataURL(sfile);
+                file.onload = function (e) {
+                    $("#ussimg").attr("src", this.result);
+                }
+            } else {
+                $.messager.alert("提示", "请选择图片");
+            }
+
+
+        }
+    </script>
+
+
+</body>
+</html>

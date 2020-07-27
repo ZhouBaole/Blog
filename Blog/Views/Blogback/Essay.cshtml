@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "文章管理";
+    Layout = "~/Views/back.cshtml";
+}
+@using Blog.Models;
+<style type="text/css">
+    .wen {
+        background-color: #0094ff;
+        color: #ffffff;
+        border-radius: 30px;
+    }
+</style>
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        
+        <div class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" id="pcname" class="form-control" placeholder="文章标题">
+            </div>
+            <button class="btn btn-default" id="select">查询</button>
+            <!-- 按钮触发模态框 -->
+            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                添加
+            </button>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                添加文章
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="input-group">
+                                <input type="text" id="estit" class="form-controlr" placeholder="文章标题">
+                            </div>
+                            <br />  <br />
+
+                            <textarea class="form-control" id="escount" placeholder="文章内容"></textarea>
+                            <div> 是否推荐 <input type="checkbox"   id="check" /></div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button type="button" id="esadd" class="btn btn-primary">
+                               提交
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column" id="flo">
+                @{Html.RenderAction("Essaying"); }
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                @{
+                    var es = (List<Essay>)ViewData["ess"];
+                    <div style="color:rgba(0, 0, 0, 0.63);">
+                        全部 @es.Count() 条数据,一共 @{
+                            int j = 0;
+                            if (es.Count() % 8 == 0)
+                            {
+                                j = (es.Count() / 8);
+                            }
+                            else
+                            {
+                                j = (es.Count() / 8) + 1;
+                            }
+                            <span>@j</span>
+
+
+                        } 页，第<span id="ye">1</span>页
+                    </div>
+
+                    <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        @{
+                            for (int i = 1; i <= j; i++)
+                            {
+
+                                <li name="@i" class="flow"><a href="#">@i</a></li>
+
+                            }
+                        }
+
+
+
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+
+      
+    </div>
+</div>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //分页
+        $(".flow").click(function () {
+            var id = this.getAttribute("name");
+            $("#ye").text(id);
+            $("#flo").load("/blogback/Essaying?fen=" + id);
+
+        })
+        //查询
+        $("#select").click(function () {
+            var tit = $("#pcname").val();
+            $("#flo").load("/blogback/Essaying?title=" + tit);
+         
+        })
+        //添加
+        $("#esadd").click(function () {
+            var tit = $("#estit").val();
+            var count = $("#escount").val();
+            alert(count)
+            if (tit == "" || count == "") {
+                alert("请填写完整");
+            } else {
+                var ch = document.getElementById("check");
+                var chs = ch.checked;
+               
+                $.post("eayadd", { title: tit, titcount: count, ko: chs }, function (date) {
+                    if (date.type == 1) {
+                        location.reload();
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json")
+               
+            }
+
+        })     
+      
+        
+    })
+</script>

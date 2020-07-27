@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Essays";
+    Layout = "~/Views/back.cshtml";
+}
+@using Blog.Models;
+<style type="text/css">
+    .wen {
+        background-color: #0094ff;
+        color: #ffffff;
+        border-radius: 30px;
+    }
+</style>
+@{
+    var essays = (Essay)ViewData["ess"];
+    <!--文章-->
+    <h2>@essays.estitle</h2>
+    <span>@essays.esdate</span>
+    <pre  style="white-space: pre-wrap!important;word-wrap: break-word!important;*white-space:normal!important;">
+        @essays.esconter;
+<br/>
+        
+    </pre>
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">修改文章</button>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">文章</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group" style="width:100%;margin-bottom:10px;">
+                          <input type="text" class="form-control" id="texttit" style="width:100%;" placeholder="文章标题" value="@essays.estitle"/>
+                    </div>
+                    <div class="input-group" style="width:100%;height:370px;">
+                        <textarea class="form-control" placeholder="文章内容"id="tectcon" style="width:100%;height:100%;">@essays.esconter</textarea>
+                      
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="essup" name="@essays.esid">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+     <!--评论-->
+    <h2>评论</h2>
+    <hr />
+    List<essayus> essusd = (List<essayus>)ViewData["essya"];
+
+    foreach (var item in essusd)
+    {
+
+        <div class="media" id="pc_@item.dis.diid">
+            <div class="media-left">
+                <img src="~/images/users/@item.us.uspic" class="media-object img-circle" style="width:60px;height:60px;">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    @item.us.usname
+                    <div style="display:inline;" class="right">
+                        <span>@item.dis.disdate</span>
+                        <span class="glyphicon glyphicon-thumbs-up"></span>@item.dis.disliang
+                        <button type="button" class="btn btn-danger navbar-right deletepc" style="margin-right:10px;" name="@item.dis.diid">删除</button>
+                    </div>
+                </h4>
+
+                <p>@item.dis.dicount</p>
+            </div>
+        </div>
+    }
+}
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //修改文章
+        $("#essup").click(function () {
+            var tit = $("#texttit").val();
+            var textcon = $("#tectcon").val();
+            var id = this.getAttribute("name");
+            var yeno = confirm("确定要修改");
+            if (yeno) {
+                $.post("Essupdata", { title: tit, titcount: textcon, id: id }, function (date) {
+                    if (date.type == 1) {
+                        location.reload();
+
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json")
+
+            }
+            
+        })
+        //删除评论
+        $(".deletepc").click(function () {
+            var id = this.getAttribute("name");
+            var r = confirm("确定要删除吗！");
+            if (r == true) {
+                $.post("esdisde", { idd: id }, function (date) {
+                    if (date.type == 1) {
+                        $("#pc_" + id).hide();
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json");
+            }
+
+        })
+
+    })
+
+</script>
+
+

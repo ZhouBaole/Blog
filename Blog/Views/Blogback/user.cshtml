@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/back.cshtml";
+}
+@using Blog.Models;
+<style type="text/css">
+    .user {
+        background-color: #0094ff;
+        color: #ffffff;
+        border-radius: 30px;
+    }
+
+</style>
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <div class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" id="phname" class="form-control" placeholder="相册名称">
+            </div>
+            <button class="btn btn-default" id="select">查询</button>
+           
+
+
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column" id="flo">
+                @{Html.RenderAction("users"); }
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                @{
+                    List<Usersd> pl = (List<Usersd>)ViewData["user"];
+                    <div style="color:rgba(0, 0, 0, 0.63);">
+                        全部 @pl.Count() 条数据,一共 @{
+                            int j = 0;
+                            if (pl.Count() % 8 == 0)
+                            {
+                                j = (pl.Count() / 8);
+                            }
+                            else
+                            {
+                                j = (pl.Count() / 8) + 1;
+                            }
+                            <span>@j</span>
+
+
+                        } 页，第<span id="ye">1</span>页
+                    </div>
+
+                    <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        @{
+                            for (int i = 1; i <= j; i++)
+                            {
+
+                                <li name="@i" class="flow"><a href="#">@i</a></li>
+
+                            }
+                        }
+
+
+
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //分页
+        $(".flow").click(function () {
+            var id = this.getAttribute("name");
+            $("#ye").text(id);
+            $("#flo").load("/blogback/users?fen=" + id);
+
+        })
+       
+        //删除
+        $(".remove").click(function () {
+            var k = this.getAttribute("name");
+            var r = confirm("将删除关于本相册的所有信息！")
+            if (r == true) {
+                $.post("phremoe", { id: k }, function (date) {
+                    if (date.type == 1) {
+                        $("#" + k).hide();
+                    } else {
+                        alert(date.date);
+                    }
+                }, "json");
+            }
+
+        })
+        //查询
+        $("#select").click(function () {
+            var tit = $("#phname").val();
+            $("#flo").load("/blogback/users?title=" + tit);
+
+        })
+       
+
+    })
+</script>
+

@@ -1,0 +1,299 @@
+﻿
+@{
+    ViewBag.Title = "users";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+@using Blog.Models;
+@{
+    Usersd us = (Usersd)ViewData["userd"];
+<div class="row clearfix" style="text-align:center;">
+    
+       
+        <div class="col-md-12 column" style="text-align:center; color:azure;background-color:rgba(3, 3, 3, 0.48);">
+
+           
+                <img src="~/images/users/@us.uspic" class="img-circle" style="width:200px;height:200px;"/>
+         
+               
+            
+           
+               <h3> 姓名：@us.usname</h3>
+               <h3> 手机号：@us.usphono</h3>
+            <h3>邮箱：@us.usemal</h3>
+           
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >修改个人信息</button>
+           
+        </div>
+
+
+   
+   
+</div>
+
+ <!--用户信息修改模态框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:black;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">@us.usname</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <form id="formds" enctype="multipart/form-data">
+                        <div class="col-md-6 column">
+                            <!-- 姓名 -->
+                            <div class="input-group">
+                               姓名： <input type="text" class="form-control" name="usname" id="usnames" placeholder="姓名" value="@us.usname">
+                                <span class="glyphicon glyphicon-ok none usnameoks"></span>
+                                <p class="none usnamenos" style="color:red">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>名字长度不能大于五，也不能为空哦
+                                </p>
+                            </div><br />
+                            <!-- 手机号 -->
+                            <div class="input-group">
+                              手机号：  <input type="text" class="form-control left" name="usphone" id="usphones" placeholder="手机号"  value="@us.usphono" />
+                                <span class="glyphicon glyphicon-ok none usphoneoks"></span>
+                                <p class="none usphonenos" style="color:red">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>请输入正确的手机号，也不能为空哦
+                                </p>
+                            </div><br />
+                            <!-- 密码 -->
+                            <div class="input-group">
+                                密码：<input type="password" class="form-control" name="pwd" id="pwdss" placeholder="密码"  value="@us.uspwd" />
+                                <span class="glyphicon glyphicon-ok none pwdoks"></span>
+                                <p class="none pwdnos" style="color:red">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>密码长度需要在6到10位数字，也不能为空哦
+                                </p>
+                            </div><br />
+                            <!-- 确认密码 -->
+                            <div class="input-group">
+                              确认密码：  <input type="password" class="form-control" name="pwds" id="pwdsss" placeholder="确认密码"  value="@us.uspwd" />
+                                <span class="glyphicon glyphicon-ok none pwdsoks"></span>
+                                <p class="none pwdsnos" style="color:red">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>与密码不一致
+                                </p>
+                            </div><br />
+                            <!--发送验证码-->
+                            邮箱：
+                            <div class="input-group">
+                               <input type="email" class="form-control" name="emial" placeholder="输入邮箱" id="emiaslss" value="@us.usemal">
+
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="emialsss" type="button">发送验证码</button>
+                                    <button class="btn btn-default none" id="emialss" type="button">已发送</button>
+                                </span>
+
+                            </div>
+                            <br />
+                            <!-- 输入验证码 -->
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="emialyan" id="emialyans" placeholder="输入验证码">
+                                <span class="glyphicon glyphicon-ok none emialyanoks"></span>
+                                <p class="none emialyannos" style="color:red">
+                                    <span class="glyphicon glyphicon-remove">
+                                    </span>验证码5位数，且不能为空
+                                </p>
+
+                            </div><br />
+                            <!--编号-->
+                            <input type="text" class="form-control" name="id" id="id" style="display:none;" value="@us.usid">
+                        </div>
+                        <div class="col-md-6 column" style="text-align:center;">
+                           
+                            <img id="ussimg" src="~/images/users/@us.uspic" class="img-circle" style="width:100px;height:100px;margin:0px auto;">
+                            <input type="file" id="file" name="file" onchange="myfile()" style="width:50%;margin:10px auto;" />
+                         </div>
+                
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="upda" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+}
+<script src="~/scripts/easyui/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //验证邮箱
+        var ems = 0;
+
+        $("#emialsss").click(function () {
+            var em = $("#emiaslss").val();
+            if (em != "" && em != null) {
+                var reg = /^\w+([-+.]\w+)*@{@Html.Raw("@");}\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                isok = reg.test(em);
+                if (!isok) {
+                    alert("邮箱格式不正确，请重新输入！");
+                } else {
+                    $.post("SendEmail1", { mailTo: em, mailSubject: "验证码", mailContent: "验证码是" }, function (date) {
+                        if (date.type == 1) {
+                            alert(date.date);
+                            $("#emialss").addClass("none")
+                            $("#emialsss").removeClass("none")
+                            $("#emialsss").addClass("back")
+                            $("#emiaslss").attr("readonly", "readonly");
+                            ems = 2;
+                        } else {
+                            alert(date.date);
+                        }
+
+
+                    }, "json")
+
+                }
+
+            } else {
+                alert("请输入邮箱")
+            }
+        });
+
+
+        //名字判断
+        $("#usnames").blur(function () {
+            var text = $("#usnames").val();
+
+
+            if (text.length > 5 || text == "" || text == null) {
+                $(".usnamenos").removeClass("none");
+                $(".usnameoks").addClass("none");
+            } else {
+                $(".usnamenos").addClass("none");
+                $(".usnameoks").removeClass("none");
+            }
+
+        })
+        //验证码判断
+        $("#emialyans").blur(function () {
+            var text = $("#emialyans").val();
+
+
+            if (text.length != 5 || text == "" || text == null) {
+                $(".emialyannos").removeClass("none");
+                $(".emialyanoks").addClass("none");
+            } else {
+                $(".emialyannos").addClass("none");
+                $(".emialyanoks").removeClass("none");
+            }
+
+        })
+        //手机号码判断
+        $("#usphones").blur(function () {
+            var text = $("#usphones").val();
+            var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+
+            if (!myreg.test(text) || text == "" || text == null) {
+                $(".usphonenos").removeClass("none");
+                $(".usphoneoks").addClass("none");
+            } else {
+                $(".usphonenos").addClass("none");
+                $(".usphoneoks").removeClass("none");
+            }
+
+        })
+        //密码判断
+        $("#pwdss").blur(function () {
+            var text = $("#pwdss").val();
+
+
+            if (text.length > 10 || text.length < 6 || text == "" || text == null) {
+                $(".pwdnoss").removeClass("none");
+                $(".pwdokss").addClass("none");
+            } else {
+                $(".pwdnoss").addClass("none");
+                $(".pwdokss").removeClass("none");
+            }
+
+        })
+       
+        //密码确认判断
+        $("#pwdsss").blur(function () {
+            var text = $("#pwdss").val();
+            var texts = $("#pwdsss").val();
+            if (text != texts || text == "") {
+                $(".pwdsnos").removeClass("none");
+                $(".pwdsoks").addClass("none");
+            } else {
+                $(".pwdsnos").addClass("none");
+                $(".pwdsoks").removeClass("none");
+            }
+
+        })
+        //修改
+        $("#upda").click(function () {
+            //判断名字
+            if ($("#usnames").val().length > 5 || $("#usnames").val() == "" || $("#usnames").val() == null) {
+                $(".usnamenos").removeClass("none");
+                $(".usnameoks").addClass("none");
+                return;
+            }
+            //手机号
+            var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+
+            if (!myreg.test($("#usphones").val()) || $("#usphones").val() == "" || $("#usphones").val() == null) {
+                $(".usphonenos").removeClass("none");
+                $(".usphoneoks").addClass("none");
+                return;
+            }
+            //密码
+
+            if ($("#pwdsss").val().length > 10 || $("#pwdsss").val().length < 6 || $("#pwdsss").val() == "" || $("#pwdsss").val() == null) {
+                $(".pwdnos").removeClass("none");
+                $(".pwdoks").addClass("none");
+                return;
+            }
+            //确认密码
+
+            if ($("#pwdsss").val() != $("#pwdss").val() || $("#pwdss").val() == "") {
+                $(".pwdsnos").removeClass("none");
+                $(".pwdsoks").addClass("none");
+                return;
+            }
+            //邮箱
+            if (ems == 0) {
+                alert("请验证邮箱");
+                return;
+            }
+            //验证码判断
+            if ($("#emialyans").val().length != 5 || $("#emialyans").val() == "" || $("#emialyans").val() == null) {
+                $(".emialyannos").removeClass("none");
+                $(".emialyanoks").addClass("none");
+                return;
+            }
+
+            var foorm = new FormData($("#formds")[0]);
+           
+           
+            $.ajax({
+                url: "usersd",
+                dataType: "json",
+                data: foorm,
+                type: "POST",
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.type == 1) {
+                        location.reload();
+                    } else {
+                        alert(data.data);
+                    }
+                },
+                error: function (err) {
+                    alert("修改失败")
+                }
+
+            })
+
+
+        })
+    })
+</script>

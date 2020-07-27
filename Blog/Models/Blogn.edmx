@@ -1,0 +1,988 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BlognModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Discuss">
+          <Key>
+            <PropertyRef Name="diid" />
+          </Key>
+          <Property Name="diid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="dicount" Type="varchar(max)" Nullable="false" />
+          <Property Name="esid" Type="int" Nullable="false" />
+          <Property Name="disliang" Type="int" Nullable="false" />
+          <Property Name="disdate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dislike">
+          <Key>
+            <PropertyRef Name="dlid" />
+          </Key>
+          <Property Name="dlid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="dldate" Type="datetime" Nullable="false" />
+          <Property Name="diid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Eslike">
+          <Key>
+            <PropertyRef Name="elid" />
+          </Key>
+          <Property Name="elid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="eldate" Type="datetime" Nullable="false" />
+          <Property Name="esid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Essay">
+          <Key>
+            <PropertyRef Name="esid" />
+          </Key>
+          <Property Name="esid" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="estitle" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="esconter" Type="varchar(max)" Nullable="false" />
+          <Property Name="esdate" Type="datetime" Nullable="false" />
+          <Property Name="esliang" Type="int" Nullable="false" />
+          <Property Name="eisno" Type="bit" Nullable="false" />
+          <Property Name="eslikes" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Melike">
+          <Key>
+            <PropertyRef Name="mlid" />
+          </Key>
+          <Property Name="mlid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="medate" Type="datetime" Nullable="false" />
+          <Property Name="meid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="meid" />
+          </Key>
+          <Property Name="meid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="meconter" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="meliang" Type="int" Nullable="false" />
+          <Property Name="mesdate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pclike">
+          <Key>
+            <PropertyRef Name="plcid" />
+          </Key>
+          <Property Name="plcid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="plcdate" Type="datetime" Nullable="false" />
+          <Property Name="pcid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phabum">
+          <Key>
+            <PropertyRef Name="phid" />
+          </Key>
+          <Property Name="phid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phtitle" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="phback" Type="varchar(max)" Nullable="false" />
+          <Property Name="phdate" Type="datetime" Nullable="false" />
+          <Property Name="phliang" Type="int" Nullable="false" />
+          <Property Name="phlikes" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phlike">
+          <Key>
+            <PropertyRef Name="plid" />
+          </Key>
+          <Property Name="plid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="pldate" Type="datetime" Nullable="false" />
+          <Property Name="phid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Photocuss">
+          <Key>
+            <PropertyRef Name="pcid" />
+          </Key>
+          <Property Name="pcid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usid" Type="int" Nullable="false" />
+          <Property Name="pccount" Type="varchar(max)" Nullable="false" />
+          <Property Name="phid" Type="int" Nullable="false" />
+          <Property Name="pcliang" Type="int" Nullable="false" />
+          <Property Name="pcdate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Photograph">
+          <Key>
+            <PropertyRef Name="otoid" />
+          </Key>
+          <Property Name="otoid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="otoname" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="otodate" Type="datetime" Nullable="false" />
+          <Property Name="phid" Type="int" Nullable="false" />
+          <Property Name="photos" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usersd">
+          <Key>
+            <PropertyRef Name="usid" />
+          </Key>
+          <Property Name="usid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="usemal" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="uspwd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="usphono" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="uspic" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Discuss_Essay">
+          <End Role="Essay" Type="Self.Essay" Multiplicity="1" />
+          <End Role="Discuss" Type="Self.Discuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Essay">
+              <PropertyRef Name="esid" />
+            </Principal>
+            <Dependent Role="Discuss">
+              <PropertyRef Name="esid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Discuss_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Discuss" Type="Self.Discuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Discuss">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dislike_Discuss">
+          <End Role="Discuss" Type="Self.Discuss" Multiplicity="1" />
+          <End Role="Dislike" Type="Self.Dislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discuss">
+              <PropertyRef Name="diid" />
+            </Principal>
+            <Dependent Role="Dislike">
+              <PropertyRef Name="diid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dislike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Dislike" Type="Self.Dislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Dislike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Eslike_Essay">
+          <End Role="Essay" Type="Self.Essay" Multiplicity="1" />
+          <End Role="Eslike" Type="Self.Eslike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Essay">
+              <PropertyRef Name="esid" />
+            </Principal>
+            <Dependent Role="Eslike">
+              <PropertyRef Name="esid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Eslike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Eslike" Type="Self.Eslike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Eslike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Melike_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="Melike" Type="Self.Melike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="meid" />
+            </Principal>
+            <Dependent Role="Melike">
+              <PropertyRef Name="meid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Melike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Melike" Type="Self.Melike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Melike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pclike_Photocuss">
+          <End Role="Photocuss" Type="Self.Photocuss" Multiplicity="1" />
+          <End Role="Pclike" Type="Self.Pclike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photocuss">
+              <PropertyRef Name="pcid" />
+            </Principal>
+            <Dependent Role="Pclike">
+              <PropertyRef Name="pcid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pclike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Pclike" Type="Self.Pclike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Pclike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phlike_Phabum">
+          <End Role="Phabum" Type="Self.Phabum" Multiplicity="1" />
+          <End Role="Phlike" Type="Self.Phlike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phabum">
+              <PropertyRef Name="phid" />
+            </Principal>
+            <Dependent Role="Phlike">
+              <PropertyRef Name="phid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phlike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Phlike" Type="Self.Phlike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Phlike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photocuss_Phabum">
+          <End Role="Phabum" Type="Self.Phabum" Multiplicity="1" />
+          <End Role="Photocuss" Type="Self.Photocuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phabum">
+              <PropertyRef Name="phid" />
+            </Principal>
+            <Dependent Role="Photocuss">
+              <PropertyRef Name="phid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photocuss_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Photocuss" Type="Self.Photocuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Photocuss">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photograph_Phabum">
+          <End Role="Phabum" Type="Self.Phabum" Multiplicity="1" />
+          <End Role="Photograph" Type="Self.Photograph" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phabum">
+              <PropertyRef Name="phid" />
+            </Principal>
+            <Dependent Role="Photograph">
+              <PropertyRef Name="phid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlognModelStoreContainer">
+          <EntitySet Name="Discuss" EntityType="Self.Discuss" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dislike" EntityType="Self.Dislike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Eslike" EntityType="Self.Eslike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Essay" EntityType="Self.Essay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Melike" EntityType="Self.Melike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pclike" EntityType="Self.Pclike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phabum" EntityType="Self.Phabum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phlike" EntityType="Self.Phlike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photocuss" EntityType="Self.Photocuss" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photograph" EntityType="Self.Photograph" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usersd" EntityType="Self.Usersd" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Discuss_Essay" Association="Self.FK_Discuss_Essay">
+            <End Role="Essay" EntitySet="Essay" />
+            <End Role="Discuss" EntitySet="Discuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discuss_Usersd" Association="Self.FK_Discuss_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Discuss" EntitySet="Discuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dislike_Discuss" Association="Self.FK_Dislike_Discuss">
+            <End Role="Discuss" EntitySet="Discuss" />
+            <End Role="Dislike" EntitySet="Dislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dislike_Usersd" Association="Self.FK_Dislike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Dislike" EntitySet="Dislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eslike_Essay" Association="Self.FK_Eslike_Essay">
+            <End Role="Essay" EntitySet="Essay" />
+            <End Role="Eslike" EntitySet="Eslike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eslike_Usersd" Association="Self.FK_Eslike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Eslike" EntitySet="Eslike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Melike_Message" Association="Self.FK_Melike_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Melike" EntitySet="Melike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Melike_Usersd" Association="Self.FK_Melike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Melike" EntitySet="Melike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Usersd" Association="Self.FK_Message_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pclike_Photocuss" Association="Self.FK_Pclike_Photocuss">
+            <End Role="Photocuss" EntitySet="Photocuss" />
+            <End Role="Pclike" EntitySet="Pclike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pclike_Usersd" Association="Self.FK_Pclike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Pclike" EntitySet="Pclike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phlike_Phabum" Association="Self.FK_Phlike_Phabum">
+            <End Role="Phabum" EntitySet="Phabum" />
+            <End Role="Phlike" EntitySet="Phlike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phlike_Usersd" Association="Self.FK_Phlike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Phlike" EntitySet="Phlike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photocuss_Phabum" Association="Self.FK_Photocuss_Phabum">
+            <End Role="Phabum" EntitySet="Phabum" />
+            <End Role="Photocuss" EntitySet="Photocuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photocuss_Usersd" Association="Self.FK_Photocuss_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Photocuss" EntitySet="Photocuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photograph_Phabum" Association="Self.FK_Photograph_Phabum">
+            <End Role="Phabum" EntitySet="Phabum" />
+            <End Role="Photograph" EntitySet="Photograph" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlognModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Discuss">
+          <Key>
+            <PropertyRef Name="diid" />
+          </Key>
+          <Property Name="diid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="dicount" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="esid" Type="Int32" Nullable="false" />
+          <Property Name="disliang" Type="Int32" Nullable="false" />
+          <Property Name="disdate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Essay" Relationship="Self.FK_Discuss_Essay" FromRole="Discuss" ToRole="Essay" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Discuss_Usersd" FromRole="Discuss" ToRole="Usersd" />
+          <NavigationProperty Name="Dislike" Relationship="Self.FK_Dislike_Discuss" FromRole="Discuss" ToRole="Dislike" />
+        </EntityType>
+        <EntityType Name="Dislike">
+          <Key>
+            <PropertyRef Name="dlid" />
+          </Key>
+          <Property Name="dlid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="dldate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="diid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Discuss" Relationship="Self.FK_Dislike_Discuss" FromRole="Dislike" ToRole="Discuss" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Dislike_Usersd" FromRole="Dislike" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Eslike">
+          <Key>
+            <PropertyRef Name="elid" />
+          </Key>
+          <Property Name="elid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="eldate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="esid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Essay" Relationship="Self.FK_Eslike_Essay" FromRole="Eslike" ToRole="Essay" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Eslike_Usersd" FromRole="Eslike" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Essay">
+          <Key>
+            <PropertyRef Name="esid" />
+          </Key>
+          <Property Name="esid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="esconter" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="esdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="esliang" Type="Int32" Nullable="false" />
+          <Property Name="eisno" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Discuss" Relationship="Self.FK_Discuss_Essay" FromRole="Essay" ToRole="Discuss" />
+          <NavigationProperty Name="Eslike" Relationship="Self.FK_Eslike_Essay" FromRole="Essay" ToRole="Eslike" />
+          <Property Name="eslikes" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Melike">
+          <Key>
+            <PropertyRef Name="mlid" />
+          </Key>
+          <Property Name="mlid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="medate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="meid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Message" Relationship="Self.FK_Melike_Message" FromRole="Melike" ToRole="Message" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Melike_Usersd" FromRole="Melike" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="meid" />
+          </Key>
+          <Property Name="meid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="meconter" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="meliang" Type="Int32" Nullable="false" />
+          <Property Name="mesdate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Melike" Relationship="Self.FK_Melike_Message" FromRole="Message" ToRole="Melike" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Message_Usersd" FromRole="Message" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Pclike">
+          <Key>
+            <PropertyRef Name="plcid" />
+          </Key>
+          <Property Name="plcid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="plcdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="pcid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Photocuss" Relationship="Self.FK_Pclike_Photocuss" FromRole="Pclike" ToRole="Photocuss" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Pclike_Usersd" FromRole="Pclike" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Phabum">
+          <Key>
+            <PropertyRef Name="phid" />
+          </Key>
+          <Property Name="phid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phtitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phback" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="phliang" Type="Int32" Nullable="false" />
+          <Property Name="phlikes" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Phlike" Relationship="Self.FK_Phlike_Phabum" FromRole="Phabum" ToRole="Phlike" />
+          <NavigationProperty Name="Photocuss" Relationship="Self.FK_Photocuss_Phabum" FromRole="Phabum" ToRole="Photocuss" />
+          <NavigationProperty Name="Photograph" Relationship="Self.FK_Photograph_Phabum" FromRole="Phabum" ToRole="Photograph" />
+        </EntityType>
+        <EntityType Name="Phlike">
+          <Key>
+            <PropertyRef Name="plid" />
+          </Key>
+          <Property Name="plid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="pldate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="phid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Phabum" Relationship="Self.FK_Phlike_Phabum" FromRole="Phlike" ToRole="Phabum" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Phlike_Usersd" FromRole="Phlike" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Photocuss">
+          <Key>
+            <PropertyRef Name="pcid" />
+          </Key>
+          <Property Name="pcid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usid" Type="Int32" Nullable="false" />
+          <Property Name="pccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phid" Type="Int32" Nullable="false" />
+          <Property Name="pcliang" Type="Int32" Nullable="false" />
+          <Property Name="pcdate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Pclike" Relationship="Self.FK_Pclike_Photocuss" FromRole="Photocuss" ToRole="Pclike" />
+          <NavigationProperty Name="Phabum" Relationship="Self.FK_Photocuss_Phabum" FromRole="Photocuss" ToRole="Phabum" />
+          <NavigationProperty Name="Usersd" Relationship="Self.FK_Photocuss_Usersd" FromRole="Photocuss" ToRole="Usersd" />
+        </EntityType>
+        <EntityType Name="Photograph">
+          <Key>
+            <PropertyRef Name="otoid" />
+          </Key>
+          <Property Name="otoid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="otoname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="otodate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="phid" Type="Int32" Nullable="false" />
+          <Property Name="photos" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Phabum" Relationship="Self.FK_Photograph_Phabum" FromRole="Photograph" ToRole="Phabum" />
+        </EntityType>
+        <EntityType Name="Usersd">
+          <Key>
+            <PropertyRef Name="usid" />
+          </Key>
+          <Property Name="usid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usemal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uspwd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usphono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uspic" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Discuss" Relationship="Self.FK_Discuss_Usersd" FromRole="Usersd" ToRole="Discuss" />
+          <NavigationProperty Name="Dislike" Relationship="Self.FK_Dislike_Usersd" FromRole="Usersd" ToRole="Dislike" />
+          <NavigationProperty Name="Eslike" Relationship="Self.FK_Eslike_Usersd" FromRole="Usersd" ToRole="Eslike" />
+          <NavigationProperty Name="Melike" Relationship="Self.FK_Melike_Usersd" FromRole="Usersd" ToRole="Melike" />
+          <NavigationProperty Name="Message" Relationship="Self.FK_Message_Usersd" FromRole="Usersd" ToRole="Message" />
+          <NavigationProperty Name="Pclike" Relationship="Self.FK_Pclike_Usersd" FromRole="Usersd" ToRole="Pclike" />
+          <NavigationProperty Name="Phlike" Relationship="Self.FK_Phlike_Usersd" FromRole="Usersd" ToRole="Phlike" />
+          <NavigationProperty Name="Photocuss" Relationship="Self.FK_Photocuss_Usersd" FromRole="Usersd" ToRole="Photocuss" />
+        </EntityType>
+        <Association Name="FK_Discuss_Essay">
+          <End Role="Essay" Type="Self.Essay" Multiplicity="1" />
+          <End Role="Discuss" Type="Self.Discuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Essay">
+              <PropertyRef Name="esid" />
+            </Principal>
+            <Dependent Role="Discuss">
+              <PropertyRef Name="esid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Discuss_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Discuss" Type="Self.Discuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Discuss">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dislike_Discuss">
+          <End Role="Discuss" Type="Self.Discuss" Multiplicity="1" />
+          <End Role="Dislike" Type="Self.Dislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discuss">
+              <PropertyRef Name="diid" />
+            </Principal>
+            <Dependent Role="Dislike">
+              <PropertyRef Name="diid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dislike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Dislike" Type="Self.Dislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Dislike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Eslike_Essay">
+          <End Role="Essay" Type="Self.Essay" Multiplicity="1" />
+          <End Role="Eslike" Type="Self.Eslike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Essay">
+              <PropertyRef Name="esid" />
+            </Principal>
+            <Dependent Role="Eslike">
+              <PropertyRef Name="esid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Eslike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Eslike" Type="Self.Eslike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Eslike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Melike_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="1" />
+          <End Role="Melike" Type="Self.Melike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="meid" />
+            </Principal>
+            <Dependent Role="Melike">
+              <PropertyRef Name="meid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Melike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Melike" Type="Self.Melike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Melike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pclike_Photocuss">
+          <End Role="Photocuss" Type="Self.Photocuss" Multiplicity="1" />
+          <End Role="Pclike" Type="Self.Pclike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photocuss">
+              <PropertyRef Name="pcid" />
+            </Principal>
+            <Dependent Role="Pclike">
+              <PropertyRef Name="pcid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pclike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Pclike" Type="Self.Pclike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Pclike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phlike_Phabum">
+          <End Role="Phabum" Type="Self.Phabum" Multiplicity="1" />
+          <End Role="Phlike" Type="Self.Phlike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phabum">
+              <PropertyRef Name="phid" />
+            </Principal>
+            <Dependent Role="Phlike">
+              <PropertyRef Name="phid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photocuss_Phabum">
+          <End Role="Phabum" Type="Self.Phabum" Multiplicity="1" />
+          <End Role="Photocuss" Type="Self.Photocuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phabum">
+              <PropertyRef Name="phid" />
+            </Principal>
+            <Dependent Role="Photocuss">
+              <PropertyRef Name="phid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photograph_Phabum">
+          <End Role="Phabum" Type="Self.Phabum" Multiplicity="1" />
+          <End Role="Photograph" Type="Self.Photograph" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phabum">
+              <PropertyRef Name="phid" />
+            </Principal>
+            <Dependent Role="Photograph">
+              <PropertyRef Name="phid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Phlike_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Phlike" Type="Self.Phlike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Phlike">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Photocuss_Usersd">
+          <End Role="Usersd" Type="Self.Usersd" Multiplicity="1" />
+          <End Role="Photocuss" Type="Self.Photocuss" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usersd">
+              <PropertyRef Name="usid" />
+            </Principal>
+            <Dependent Role="Photocuss">
+              <PropertyRef Name="usid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlognEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Discuss" EntityType="Self.Discuss" />
+          <EntitySet Name="Dislike" EntityType="Self.Dislike" />
+          <EntitySet Name="Eslike" EntityType="Self.Eslike" />
+          <EntitySet Name="Essay" EntityType="Self.Essay" />
+          <EntitySet Name="Melike" EntityType="Self.Melike" />
+          <EntitySet Name="Message" EntityType="Self.Message" />
+          <EntitySet Name="Pclike" EntityType="Self.Pclike" />
+          <EntitySet Name="Phabum" EntityType="Self.Phabum" />
+          <EntitySet Name="Phlike" EntityType="Self.Phlike" />
+          <EntitySet Name="Photocuss" EntityType="Self.Photocuss" />
+          <EntitySet Name="Photograph" EntityType="Self.Photograph" />
+          <EntitySet Name="Usersd" EntityType="Self.Usersd" />
+          <AssociationSet Name="FK_Discuss_Essay" Association="Self.FK_Discuss_Essay">
+            <End Role="Essay" EntitySet="Essay" />
+            <End Role="Discuss" EntitySet="Discuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discuss_Usersd" Association="Self.FK_Discuss_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Discuss" EntitySet="Discuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dislike_Discuss" Association="Self.FK_Dislike_Discuss">
+            <End Role="Discuss" EntitySet="Discuss" />
+            <End Role="Dislike" EntitySet="Dislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dislike_Usersd" Association="Self.FK_Dislike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Dislike" EntitySet="Dislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eslike_Essay" Association="Self.FK_Eslike_Essay">
+            <End Role="Essay" EntitySet="Essay" />
+            <End Role="Eslike" EntitySet="Eslike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eslike_Usersd" Association="Self.FK_Eslike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Eslike" EntitySet="Eslike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Melike_Message" Association="Self.FK_Melike_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Melike" EntitySet="Melike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Melike_Usersd" Association="Self.FK_Melike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Melike" EntitySet="Melike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Usersd" Association="Self.FK_Message_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pclike_Photocuss" Association="Self.FK_Pclike_Photocuss">
+            <End Role="Photocuss" EntitySet="Photocuss" />
+            <End Role="Pclike" EntitySet="Pclike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pclike_Usersd" Association="Self.FK_Pclike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Pclike" EntitySet="Pclike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phlike_Phabum" Association="Self.FK_Phlike_Phabum">
+            <End Role="Phabum" EntitySet="Phabum" />
+            <End Role="Phlike" EntitySet="Phlike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photocuss_Phabum" Association="Self.FK_Photocuss_Phabum">
+            <End Role="Phabum" EntitySet="Phabum" />
+            <End Role="Photocuss" EntitySet="Photocuss" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photograph_Phabum" Association="Self.FK_Photograph_Phabum">
+            <End Role="Phabum" EntitySet="Phabum" />
+            <End Role="Photograph" EntitySet="Photograph" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phlike_Usersd" Association="Self.FK_Phlike_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Phlike" EntitySet="Phlike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Photocuss_Usersd" Association="Self.FK_Photocuss_Usersd">
+            <End Role="Usersd" EntitySet="Usersd" />
+            <End Role="Photocuss" EntitySet="Photocuss" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BlognModelStoreContainer" CdmEntityContainer="BlognEntities">
+          <EntitySetMapping Name="Discuss">
+            <EntityTypeMapping TypeName="BlognModel.Discuss">
+              <MappingFragment StoreEntitySet="Discuss">
+                <ScalarProperty Name="diid" ColumnName="diid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="dicount" ColumnName="dicount" />
+                <ScalarProperty Name="esid" ColumnName="esid" />
+                <ScalarProperty Name="disliang" ColumnName="disliang" />
+                <ScalarProperty Name="disdate" ColumnName="disdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dislike">
+            <EntityTypeMapping TypeName="BlognModel.Dislike">
+              <MappingFragment StoreEntitySet="Dislike">
+                <ScalarProperty Name="dlid" ColumnName="dlid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="dldate" ColumnName="dldate" />
+                <ScalarProperty Name="diid" ColumnName="diid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eslike">
+            <EntityTypeMapping TypeName="BlognModel.Eslike">
+              <MappingFragment StoreEntitySet="Eslike">
+                <ScalarProperty Name="elid" ColumnName="elid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="eldate" ColumnName="eldate" />
+                <ScalarProperty Name="esid" ColumnName="esid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Essay">
+            <EntityTypeMapping TypeName="BlognModel.Essay">
+              <MappingFragment StoreEntitySet="Essay">
+                <ScalarProperty Name="eslikes" ColumnName="eslikes" />
+                <ScalarProperty Name="esid" ColumnName="esid" />
+                <ScalarProperty Name="estitle" ColumnName="estitle" />
+                <ScalarProperty Name="esconter" ColumnName="esconter" />
+                <ScalarProperty Name="esdate" ColumnName="esdate" />
+                <ScalarProperty Name="esliang" ColumnName="esliang" />
+                <ScalarProperty Name="eisno" ColumnName="eisno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Melike">
+            <EntityTypeMapping TypeName="BlognModel.Melike">
+              <MappingFragment StoreEntitySet="Melike">
+                <ScalarProperty Name="mlid" ColumnName="mlid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="medate" ColumnName="medate" />
+                <ScalarProperty Name="meid" ColumnName="meid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="BlognModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="meid" ColumnName="meid" />
+                <ScalarProperty Name="meconter" ColumnName="meconter" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="meliang" ColumnName="meliang" />
+                <ScalarProperty Name="mesdate" ColumnName="mesdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pclike">
+            <EntityTypeMapping TypeName="BlognModel.Pclike">
+              <MappingFragment StoreEntitySet="Pclike">
+                <ScalarProperty Name="plcid" ColumnName="plcid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="plcdate" ColumnName="plcdate" />
+                <ScalarProperty Name="pcid" ColumnName="pcid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phabum">
+            <EntityTypeMapping TypeName="BlognModel.Phabum">
+              <MappingFragment StoreEntitySet="Phabum">
+                <ScalarProperty Name="phid" ColumnName="phid" />
+                <ScalarProperty Name="phtitle" ColumnName="phtitle" />
+                <ScalarProperty Name="phback" ColumnName="phback" />
+                <ScalarProperty Name="phdate" ColumnName="phdate" />
+                <ScalarProperty Name="phliang" ColumnName="phliang" />
+                <ScalarProperty Name="phlikes" ColumnName="phlikes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phlike">
+            <EntityTypeMapping TypeName="BlognModel.Phlike">
+              <MappingFragment StoreEntitySet="Phlike">
+                <ScalarProperty Name="plid" ColumnName="plid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="pldate" ColumnName="pldate" />
+                <ScalarProperty Name="phid" ColumnName="phid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photocuss">
+            <EntityTypeMapping TypeName="BlognModel.Photocuss">
+              <MappingFragment StoreEntitySet="Photocuss">
+                <ScalarProperty Name="pcid" ColumnName="pcid" />
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="pccount" ColumnName="pccount" />
+                <ScalarProperty Name="phid" ColumnName="phid" />
+                <ScalarProperty Name="pcliang" ColumnName="pcliang" />
+                <ScalarProperty Name="pcdate" ColumnName="pcdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photograph">
+            <EntityTypeMapping TypeName="BlognModel.Photograph">
+              <MappingFragment StoreEntitySet="Photograph">
+                <ScalarProperty Name="otoid" ColumnName="otoid" />
+                <ScalarProperty Name="otoname" ColumnName="otoname" />
+                <ScalarProperty Name="otodate" ColumnName="otodate" />
+                <ScalarProperty Name="phid" ColumnName="phid" />
+                <ScalarProperty Name="photos" ColumnName="photos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usersd">
+            <EntityTypeMapping TypeName="BlognModel.Usersd">
+              <MappingFragment StoreEntitySet="Usersd">
+                <ScalarProperty Name="usid" ColumnName="usid" />
+                <ScalarProperty Name="usname" ColumnName="usname" />
+                <ScalarProperty Name="usemal" ColumnName="usemal" />
+                <ScalarProperty Name="uspwd" ColumnName="uspwd" />
+                <ScalarProperty Name="usphono" ColumnName="usphono" />
+                <ScalarProperty Name="uspic" ColumnName="uspic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
